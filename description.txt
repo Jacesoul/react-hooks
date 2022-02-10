@@ -1,0 +1,23 @@
+### Introduction
+
+- useTitle은 react document의 title을 몇개의 hooks와 함께 바꾸는거다.
+- useInput은 input 역할을 한다.
+- usePageLeave는 유저가 page를 벗어나는 시점을 발견하고 함수를 실행한다.
+- useClick은 누군가 element를 클릭하는 시점을 발견한다. 
+- useFadeIn은 어떤 Element든 상관없이 애니메이션을 Element 안으로 서서히 사라지게 만든다.
+- useFullScreen은 어떤 element든 풀스크린으로 만들거나 일반 화면으로 돌아가게 할수있다. 
+- useHover는 어떤것에 마우스를 올렸을때 감지한다. 
+- useNetwork는 Online 또는 Offline상태인지를 감지한다. 
+- useNotification은 notification API를 사용할때 유저에게 알림을 보내준다. 
+- useScroll은 스크롤을 사용할 때를 감지해 알려준다.
+- useTabs는 웹사이트에 메뉴 또는 무엇이든간에 tab을 사용하기 매우 쉽게 만들어준다.
+- usePreventLeave는 유저가 변경사항이나 무엇이든간에 저장하지 않고 페이지를 벗어나길 원할때 확인한다. 
+- useAxios는 HTTP requests client axios를 위한 wrapper이다. 
+
+### USESTATE
+
+- React Hook은 결론적으로 functional component에서 state를 가질수 있게 해준다.
+- 앱을 리액트 훅으로 만든다면 class component, did mount, render.. 이런것들을 하지 않아도 된다. 모든것이 하나의 function이 되는것이다.
+- 이 의미는 functional programming(함수형 프로그래밍) 스타일이 된다는 뜻이다.
+- hooks가 생기기전에 state를 함수형 component에 사용할수 없었다.
+
