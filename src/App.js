@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useInput = (initialValue, validator) => {
   const [value, setValue] = useState(initialValue);
@@ -40,13 +40,15 @@ const useTabs = (initialTab, allTabs) => {
 };
 
 function App() {
-  const { currentItem, changeItem } = useTabs(0, content);
+  const sayHello = () => console.log("hello");
+  const [number, setNumber] = useState(0);
+  const [aNumber, setAnumber] = useState(0);
+  useEffect(sayHello, [number]);
   return (
     <div>
-      {content.map((section, index) => (
-        <button onClick={() => changeItem(index)}>{section.tab}</button>
-      ))}
-      <div>{currentItem.content}</div>
+      <h1>Hi</h1>
+      <button onClick={() => setNumber(number + 1)}>{number}</button>
+      <button onClick={() => setAnumber(aNumber - 1)}>{aNumber}</button>
     </div>
   );
 }
