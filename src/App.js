@@ -17,18 +17,7 @@ export const useInput = (initialValue, validator) => {
   return { value, onChange };
 };
 
-const content = [
-  {
-    tab: "Section 1",
-    content: "I'm the content of the Section 1 ",
-  },
-  {
-    tab: "Section 2",
-    content: "I'm the content of the Section 2 ",
-  },
-];
-
-const useTabs = (initialTab, allTabs) => {
+export const useTabs = (initialTab, allTabs) => {
   // if (!allTabs || !Array.isArray(allTabs)) {
   //   return;
   // }
@@ -39,16 +28,22 @@ const useTabs = (initialTab, allTabs) => {
   };
 };
 
+const useTitle = (initialTitle) => {
+  const [title, setTitle] = useState(initialTitle);
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerHTML = title;
+  };
+  useEffect(updateTitle, [title]);
+  return setTitle;
+};
+
 function App() {
-  const sayHello = () => console.log("hello");
-  const [number, setNumber] = useState(0);
-  const [aNumber, setAnumber] = useState(0);
-  useEffect(sayHello, [number]);
+  const titleUpdator = useTitle("Loading...");
+  setTimeout(() => titleUpdator("Home"), 5000);
   return (
     <div>
       <h1>Hi</h1>
-      <button onClick={() => setNumber(number + 1)}>{number}</button>
-      <button onClick={() => setAnumber(aNumber - 1)}>{aNumber}</button>
     </div>
   );
 }
