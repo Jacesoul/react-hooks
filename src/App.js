@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const useInput = (initialValue, validator) => {
   const [value, setValue] = useState(initialValue);
@@ -28,7 +28,7 @@ export const useTabs = (initialTab, allTabs) => {
   };
 };
 
-const useTitle = (initialTitle) => {
+export const useTitle = (initialTitle) => {
   const [title, setTitle] = useState(initialTitle);
   const updateTitle = () => {
     const htmlTitle = document.querySelector("title");
@@ -39,11 +39,12 @@ const useTitle = (initialTitle) => {
 };
 
 function App() {
-  const titleUpdator = useTitle("Loading...");
-  setTimeout(() => titleUpdator("Home"), 5000);
+  const input = useRef();
+  setTimeout(() => input.current.focus(), 3000);
   return (
     <div>
       <h1>Hi</h1>
+      <input placeholder="good" ref={input}></input>
     </div>
   );
 }
