@@ -74,15 +74,18 @@ export const useHover = (onHover) => {
   return element;
 };
 
-const useConfirm = (message = "", callback, reject) => {
-  // if (typeof callback !== "function") {
-  //   return;
-  // }
+export const useConfirm = (message = "", onConfirm, onCancel) => {
+  if (!onConfirm && typeof onConfirm !== "function") {
+    return;
+  }
+  if (onCancel && typeof onCancel !== "function") {
+    return;
+  }
   const confirmAction = () => {
     if (window.confirm(message)) {
-      callback();
+      onConfirm();
     } else {
-      reject();
+      onCancel();
     }
   };
   return confirmAction;
