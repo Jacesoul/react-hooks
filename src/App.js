@@ -57,9 +57,9 @@ export const useClick = (onClick) => {
 };
 
 export const useHover = (onHover) => {
-  if (typeof onHover !== "function") {
-    return;
-  }
+  // if (typeof onHover !== "function") {
+  //   return;
+  // }
   const element = useRef();
   useEffect(() => {
     if (element.current) {
@@ -74,8 +74,29 @@ export const useHover = (onHover) => {
   return element;
 };
 
+const useConfirm = (message = "", callback, reject) => {
+  // if (typeof callback !== "function") {
+  //   return;
+  // }
+  const confirmAction = () => {
+    if (window.confirm(message)) {
+      callback();
+    } else {
+      reject();
+    }
+  };
+  return confirmAction;
+};
+
 function App() {
-  return <div></div>;
+  const deleteWorld = () => console.log("Deleting the world");
+  const abort = () => console.log("Aborted");
+  const confirmDelete = useConfirm("Are you sure", deleteWorld, abort);
+  return (
+    <div>
+      <button onClick={confirmDelete}>Delete the world</button>
+    </div>
+  );
 }
 
 export default App;
