@@ -18,9 +18,6 @@ export const useInput = (initialValue, validator) => {
 };
 
 export const useTabs = (initialTab, allTabs) => {
-  // if (!allTabs || !Array.isArray(allTabs)) {
-  //   return;
-  // }
   const [currentIndex, setCurrentIndex] = useState(initialTab);
   return {
     currentItem: allTabs[currentIndex],
@@ -39,9 +36,6 @@ export const useTitle = (initialTitle) => {
 };
 
 export const useClick = (onClick) => {
-  // if (typeof onClick !== "function") {
-  //   return;
-  // }
   const element = useRef();
   useEffect(() => {
     if (element.current) {
@@ -57,9 +51,6 @@ export const useClick = (onClick) => {
 };
 
 export const useHover = (onHover) => {
-  // if (typeof onHover !== "function") {
-  //   return;
-  // }
   const element = useRef();
   useEffect(() => {
     if (element.current) {
@@ -105,9 +96,6 @@ const usePreventLeave = () => {
 };
 
 const useBeforeLeave = (onBefore) => {
-  // if (typeof onBefore !== "function") {
-  //   return;
-  // }
   const handle = (event) => {
     const { clientY } = event;
     if (clientY <= 0) {
@@ -120,12 +108,25 @@ const useBeforeLeave = (onBefore) => {
   }, []);
 };
 
+const useFadeIn = (duration = 1, delay = 0) => {
+  const element = useRef();
+  useEffect(() => {
+    if (element.current) {
+      const { current } = element;
+      current.style.transition = `opacity ${duration}s ease-in-out ${delay}s`;
+      current.style.opacity = 1;
+    }
+  }, []);
+  return { ref: element, style: { opacity: 0 } };
+};
+
 function App() {
-  const begForLife = () => console.log("Pls dont leave");
-  useBeforeLeave(begForLife);
+  const fadeInH1 = useFadeIn(1, 2);
+  const fadeInP = useFadeIn(5, 10);
   return (
     <div>
-      <h1>Hello</h1>
+      <h1 {...fadeInH1}>Hello</h1>
+      <p {...fadeInP}>lorem ipsum lalalalala</p>
     </div>
   );
 }
