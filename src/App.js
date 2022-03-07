@@ -104,12 +104,28 @@ const usePreventLeave = () => {
   return { enablePrevent, disenablePrevent };
 };
 
+const useBeforeLeave = (onBefore) => {
+  // if (typeof onBefore !== "function") {
+  //   return;
+  // }
+  const handle = (event) => {
+    const { clientY } = event;
+    if (clientY <= 0) {
+      onBefore();
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mouseleave", handle);
+    return () => document.removeEventListener("mouseleave", handle);
+  }, []);
+};
+
 function App() {
-  const { enablePrevent, disenablePrevent } = usePreventLeave();
+  const begForLife = () => console.log("Pls dont leave");
+  useBeforeLeave(begForLife);
   return (
     <div>
-      <button onClick={enablePrevent}>Protect</button>
-      <button onClick={disenablePrevent}>Unprotect</button>
+      <h1>Hello</h1>
     </div>
   );
 }
