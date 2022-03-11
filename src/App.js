@@ -174,18 +174,33 @@ const useFullscreen = (callback) => {
   return { element, triggerFull, exitFull };
 };
 
-function App() {
-  const onFullS = (isFull) => {
-    console.log(isFull ? "We are full" : "We are small");
+const useNotification = (title, options) => {
+  if (!("Notification" in window)) {
+    return;
+  }
+  const fireNotif = () => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification(title, options);
+        } else {
+          return;
+        }
+      });
+    } else {
+      new Notification(title, options);
+    }
   };
-  const { element, triggerFull, exitFull } = useFullscreen(onFullS);
+  return fireNotif;
+};
+
+function App() {
+  const triggerNotif = useNotification("Can I steal your kimchi?", {
+    body: "I love kimchi don't you?",
+  });
   return (
     <div>
-      <div ref={element}>
-        <img src="https://images.unsplash.com/photo-1646819065916-8d67d47bd9c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"></img>
-        <button onClick={exitFull}>Exit full screen</button>
-      </div>
-      <button onClick={triggerFull}>Make full screen</button>
+      <button onClick={triggerNotif}>Hi</button>
     </div>
   );
 }
