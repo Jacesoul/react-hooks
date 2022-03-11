@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import defaultAxios from "axios";
 
 export const useInput = (initialValue, validator) => {
   const [value, setValue] = useState(initialValue);
@@ -82,7 +83,7 @@ export const useConfirm = (message = "", onConfirm, onCancel) => {
   return confirmAction;
 };
 
-const usePreventLeave = () => {
+export const usePreventLeave = () => {
   const listener = (event) => {
     event.preventDefault();
     event.returnValue = "";
@@ -95,7 +96,7 @@ const usePreventLeave = () => {
   return { enablePrevent, disenablePrevent };
 };
 
-const useBeforeLeave = (onBefore) => {
+export const useBeforeLeave = (onBefore) => {
   const handle = (event) => {
     const { clientY } = event;
     if (clientY <= 0) {
@@ -108,7 +109,7 @@ const useBeforeLeave = (onBefore) => {
   }, []);
 };
 
-const useFadeIn = (duration = 1, delay = 0) => {
+export const useFadeIn = (duration = 1, delay = 0) => {
   const element = useRef();
   useEffect(() => {
     if (element.current) {
@@ -120,7 +121,7 @@ const useFadeIn = (duration = 1, delay = 0) => {
   return { ref: element, style: { opacity: 0 } };
 };
 
-const useNetwork = (onChange) => {
+export const useNetwork = (onChange) => {
   const [status, setStatus] = useState(navigator.onLine);
   const handleChange = () => {
     if (typeof onChange === "function") {
@@ -140,7 +141,7 @@ const useNetwork = (onChange) => {
   return status;
 };
 
-const useScroll = () => {
+export const useScroll = () => {
   const [state, setState] = useState({ x: 0, y: 0 });
   const onScroll = (event) => {
     setState({ y: window.scrollY, x: window.scrollX });
@@ -153,7 +154,7 @@ const useScroll = () => {
   return state;
 };
 
-const useFullscreen = (callback) => {
+export const useFullscreen = (callback) => {
   const element = useRef();
   const runCallBack = (isFull) => {
     if (callback && typeof callback === "function") {
@@ -174,7 +175,7 @@ const useFullscreen = (callback) => {
   return { element, triggerFull, exitFull };
 };
 
-const useNotification = (title, options) => {
+export const useNotification = (title, options) => {
   if (!("Notification" in window)) {
     return;
   }
@@ -194,13 +195,51 @@ const useNotification = (title, options) => {
   return fireNotif;
 };
 
-function App() {
-  const triggerNotif = useNotification("Can I steal your kimchi?", {
-    body: "I love kimchi don't you?",
+const useAxios = (opts, axiosInstance = defaultAxios) => {
+  const [state, setState] = useState({
+    loading: true,
+    error: null,
+    data: null,
   });
+  const [trigger, setTrigger] = useState(0);
+  if (!opts.url) {
+    return;
+  }
+  const refetch = () => {
+    setState({
+      ...state,
+      loading: true,
+    });
+    setTrigger(Date.now());
+  };
+  useEffect(() => {
+    axiosInstance(opts)
+      .then((data) => {
+        setState({
+          ...state,
+          loading: false,
+          data,
+        });
+      })
+      .catch((error) => {
+        setState({ ...state, loading: false, error });
+      });
+  }, [trigger]);
+  return { ...state, refetch };
+};
+
+function App() {
+  const { loading, data, error, refetch } = useAxios({
+    url: "https://yts.mx/api/v2/list_movies.json",
+  });
+  console.log(
+    `Loading : ${loading}\nData : ${JSON.stringify(data)}\nError : ${error}`
+  );
   return (
     <div>
-      <button onClick={triggerNotif}>Hi</button>
+      <h1>{data && data.status}</h1>
+      <h2>{loading && "Loading"}</h2>
+      <button onClick={refetch}>Refetch</button>
     </div>
   );
 }

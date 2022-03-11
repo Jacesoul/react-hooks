@@ -27,3 +27,7 @@
 - 만약 deps가 있다면 effect는 (deps)리스트에 있는 값일 때만 값이 변하도록 활성화된다.
 - useRef는 기본적으로 우리의 component의 어떤 부분을 선택할수 있는 방법이다.(document.getElementById()와 동등하다)
 - navigator.onLine은 true 또는 false값을 리턴한다. 
+
+### UseAxios 
+- axios는 Http request를 만드는것이다.
+- axios는 instance를 만드는걸 허용하고 configuration을 할수 있고 그것과 함께 헤더를 보낼수 있다.
